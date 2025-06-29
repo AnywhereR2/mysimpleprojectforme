@@ -23,13 +23,13 @@ variable "cluster_name" {
 variable "machine_type" {
   description = "Type of GCE VM instances"
   type        = string
-  default     = "e2-micro"
+  default     = "e2-medium"
 }
 
 variable "disk_size" {
   description = "Size of boot disk (GB)"
   type        = number
-  default     = 10
+  default     = 20
 }
 
 variable "min_node" {
