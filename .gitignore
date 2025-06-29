@@ -11,14 +11,6 @@ __pycache__/
 .scrapy/
 *.log
 
-# Terraform
-*.tfstate
-*.tfstate.backup
-.terraform/
-terraform.tfvars
-env/
-*.tfvars
-
 # Docker
 *.tar
 *.img
@@ -28,3 +20,16 @@ docker-compose.override.yml
 # Secrets and environment files
 .env
 .env.*
+
+# Terraform state and cache
+terra/.terraform/
+terra/.terraform.lock.hcl
+terra/terraform.tfstate
+terra/terraform.tfstate.backup
+terra/terraform.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform.tfvars
+env/
+*.tfvars
