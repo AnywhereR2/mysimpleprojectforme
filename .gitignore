@@ -1,0 +1,30 @@
+# Python venv
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+*.egg
+
+# Scrapy cache
+.scrapy/
+*.log
+
+# Terraform
+*.tfstate
+*.tfstate.backup
+.terraform/
+terraform.tfvars
+env/
+*.tfvars
+
+# Docker
+*.tar
+*.img
+*.pid
+docker-compose.override.yml
+
+# Secrets and environment files
+.env
+.env.*
