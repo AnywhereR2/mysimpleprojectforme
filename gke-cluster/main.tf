@@ -1,11 +1,28 @@
-resource "google_container_cluster" "gke_cluster" {
-  name     = var.clusterName
-  location = var.region
+provider "google" {
+  project = var.project_id
+  region  = var.region
+  zone    = var.zone
+}
 
-  enable_shielded_nodes    = "true"
+resource "google_compute_network" "vpc_network" {
+  name                    = "gke-vpc"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "subnet" {
+  name          = "gke-subnet"
+  ip_cidr_range = "10.0.0.0/16"
+  region        = var.region
+  network       = google_compute_network.vpc_network.id
+}
+
+resource "google_container_cluster" "gke_cluster" {
+  name     = var.cluster_name
+  location = var.zone
+
+  enable_shielded_nodes    = true
   remove_default_node_pool = true
   initial_node_count       = 1
-  disk_size_gb             = var.diskSize
 
   release_channel {
     channel = "STABLE"
@@ -34,8 +51,8 @@ resource "google_container_cluster" "gke_cluster" {
 }
 
 resource "google_container_node_pool" "primary_nodes" {
-  name       = "${var.clusterName}-pool"
-  location   = var.region # Replace this with your desired region
+  name       = "${var.cluster_name}-pool"
+  location   = var.zone
   cluster    = google_container_cluster.gke_cluster.name
   node_count = 1
 
@@ -45,8 +62,8 @@ resource "google_container_node_pool" "primary_nodes" {
   }
 
   autoscaling {
-    min_node_count = var.minNode
-    max_node_count = var.maxNode
+    min_node_count = var.min_node
+    max_node_count = var.max_node
   }
 
   timeouts {
@@ -55,8 +72,9 @@ resource "google_container_node_pool" "primary_nodes" {
   }
 
   node_config {
-    preemptible  = true
-    machine_type = var.machineType
+    preemptible     = true
+    machine_type    = var.machine_type
+    disk_size_gb    = var.disk_size
 
     oauth_scopes = [
       "https://www.googleapis.com/auth/compute",
