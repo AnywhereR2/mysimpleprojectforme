@@ -18,10 +18,14 @@ spec:
         ports:
         - containerPort: 6800
         env:
-        - name: DB_NAME   ; value: "onliner_flats_log"
-        - name: DB_USER   ; value: "postgres"
-        - name: DB_HOST   ; value: "postgres"
-        - name: DB_PORT   ; value: "5432"
+        - name: DB_NAME
+          value: "onliner_flats_log"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_PORT
+          value: "5432"
         - name: DB_PASS
           valueFrom:
             secretKeyRef:
