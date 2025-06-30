@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+      - name: web
+        image: anywherer2/anywheresimplet:latest
+        ports:
+        - containerPort: 6800
+        env:
+        - name: DB_NAME
+          value: "onliner_flats_log"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret
+              key: POSTGRES_PASSWORD
+        volumeMounts:
+        - name: scrapyd-config
+          mountPath: /etc/scrapyd
+        - name: scrapyd-data
+          mountPath: /var/lib/scrapyd
+      volumes:
+      - name: scrapyd-config
+        emptyDir: {}
+      - name: scrapyd-data
+        emptyDir: {}
